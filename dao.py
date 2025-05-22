@@ -19,4 +19,3 @@ POSTGRES_client = sqlalchemy.create_engine
 log: logging.Logger = logging.getLogger('dao')
 
 
-@utils.run_in_thread
