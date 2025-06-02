@@ -2,9 +2,7 @@
 Initializes a FastAPI application.
 """
 
-
 from contextlib import asynccontextmanager
-
 import fastapi
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -14,10 +12,15 @@ import dao
 from exceptions import CustomHTTPError
 from settings import CORS_SETTINGS
 
-from routers.creds_routers import Creds_Router
+# Импортируем все роутеры
+from routers.program_routers import Program_Router
+from routers.user_routers import User_Router
+from routers.group_routers import Group_Router
+from routers.access_routers import Access_Router
+from routers.g2p_routers import G2P_Router  # Для связей группа-программа
 
 app = fastapi.FastAPI(
-    title='Analitics feedback platform',
+    title='Analytics feedback platform',
     version='0.1'
 )
 
@@ -26,9 +29,12 @@ app.add_middleware(
     **CORS_SETTINGS,
 )
 
-
-app.include_router(Creds_Router)
-
+# Включаем все роутеры
+app.include_router(Program_Router)
+app.include_router(User_Router)
+app.include_router(Group_Router)
+app.include_router(Access_Router)
+app.include_router(G2P_Router)
 
 @app.exception_handler(CustomHTTPError)
 async def custom_exception_handler(request, exception: CustomHTTPError):
@@ -38,11 +44,9 @@ async def custom_exception_handler(request, exception: CustomHTTPError):
             'detail': exception.detail,
         },
         headers=exception.headers,
+        status_code=exception.status_code
     )
-
-
 
 if __name__ == "__main__":
     import uvicorn
-
-    uvicorn.run('app:app', reload=True)
+    uvicorn.run('app:app', host="0.0.0.0", port=8000, reload=True)

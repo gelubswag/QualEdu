@@ -100,6 +100,16 @@ class AccessRead(AccessBase):
     class Config:
         orm_mode = True
 
+# Для обновления пользователя
+class UserUpdate(BaseModel):
+    user_name: Optional[str] = None
+    user_phone: Optional[str] = None
+    user_email: Optional[EmailStr] = None
+    user_group_id: Optional[int] = None
+
+# Для обновления программы
+class ProgramUpdate(BaseModel):
+    program_name: Optional[str] = None
 
 # Для вложенных ссылок (forward references)
 GroupRead.update_forward_refs()
