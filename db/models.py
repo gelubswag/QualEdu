@@ -20,7 +20,7 @@ class Program(Base):
     program_id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     program_name: Mapped[str] = mapped_column(String(24))
 
-    p2g: Mapped[List['Group_to_Prog']] = relationship(back_populates='product')
+    p2g: Mapped[List['Group_to_Prog']] = relationship(back_populates='program')
 
 
 class User(Base):
